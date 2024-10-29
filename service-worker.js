@@ -1,11 +1,11 @@
-const CACHE_NAME = 'CR3-Stock-Take-v1';
+const CACHE_NAME = 'CR3T-Stock-Take-v1';
 const urlsToCache = [
-  '/CR3-Stock-Take/',
-  '/CR3-Stock-Take/index.html',
-  '/CR3-Stock-Take/app.js',
-  '/CR3-Stock-Take/manifest.json',
-  '/CR3-Stock-Take/icons/CR3 icon-192x192.png',
-  '/CR3-Stock-Take/icons/icon-512x512.png'
+  '/CR3T-Stock-Take/',
+  '/CR3T-Stock-Take/index.html',
+  '/CR3T-Stock-Take/app.js',
+  '/CR3T-Stock-Take/manifest.json',
+  '/CR3T-Stock-Take/icons/CR3 icon-192x192.png',
+  '/CR3T-Stock-Take/icons/icon-512x512.png'
 ];
 
 self.addEventListener('install', function(event) {
