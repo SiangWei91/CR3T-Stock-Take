@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A simple PWA barcode scanner">
+    <meta name="theme-color" content="#000000">
+    <link rel="manifest" href="/CR3-Stock-Take/manifest.json">
+    <title>Barcode Scanner</title>
+    <style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    line-height: 1.6;
+    padding-bottom: 100px; /* Space for floating input */
+}
+
+/* Header Styles */
+.header-container {
+    background-color: #2c3e50;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+h1 {
+    color: white;
+    font-size: 1.8em;
+    margin: 0 0 10px 0;
+    letter-spacing: 1px;
+}
+
+.date-time-container {
+    font-size: 1.3em;
+    color: white;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.date-time-container div {
+    padding: 3px 0;
+}
+
+.date-time-container div::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #3498db;
+    margin-right: 6px;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 20px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th, td {
+    border: none;
+    padding: 12px 15px;
+    text-align: left;
+}
+
+th {
+    background-color: #2c3e50;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+tr:hover {
+    background-color: #e8f4f8;
+}
+
+/* Input Styles */
+input[type="number"] {
+    width: 60px;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.floating-input {
+    position: fixed;
+    margin-top: 80px;
+    left: 1%;
+    transform: translateX(-50%);
+    width: 1%;
+    max-width: 10px;
+    padding: 15px;
+    background-color: #fff;
+    border: 2px solid #3498db;
+    border-radius: 25px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    z-index: 100;
+    font-size: 16px;
+    text-align: center;
+    opacity: 0;
+}
+
+.floating-input:focus {
+    outline: none;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+}
+
+/* Button Styles */
+.button-container {
+    margin-bottom: 80px;
+    padding: 20px;
+}
+
+button {
+    padding: 12px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    margin: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+}
+
+button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Specific Button Colors */
+button[onclick="submitQuantities('CR3')"] {
+    background-color: #2ecc71;
+}
+
+button[onclick="submitQuantities('CR3')"]:hover {
+    background-color: #27ae60;
+}
+
+button[onclick="refreshApp"] {
+    background-color: #e74c3c;
+}
+
+button[onclick="refreshApp"]:hover {
+    background-color: #c0392b;
+}
+
+/* Stock Check Container Styles */
+.stock-check-container {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.stock-check-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+#stockCheckBy {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #333;
+}
+
+/* Loading Overlay Styles */
+#loadingOverlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+/* Toast Notification Styles */
+#toastNotification {
+    visibility: hidden;
+    min-width: 250px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1001;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+
+#toastNotification.show {
+    visibility: visible;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* Animations */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes fadein {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeout {
+    from {opacity: 1;}
+    to {opacity: 0;}
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+    
+    h1 {
+        font-size: 2em;
+    }
+    
+    table {
+        font-size: 14px;
+    }
+    
+    input[type="number"], 
+    button {
+        font-size: 14px;
+    }
+}
+    </style>
+  </head>
+  <body>
+        <div class="header-container">
+      <h1>CR3 Stock Take</h1>
+      <div class="date-time-container">
+        <div id="currentDate"></div>
+        <div id="currentTime"></div>
+      </div>
+    </div>
+    
+    <input type="text" id="barcodeInput" class="floating-input" placeholder="Scan barcode" autofocus>
+    
+    <table id="productTable">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Pckg</th>
+          <th>Qty</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Table rows will be populated by JavaScript -->
+      </tbody>
+    </table>
+
+    <div class="stock-check-container">
+      <label for="stockCheckBy">Stock Check By:</label>
+      <select id="stockCheckBy">
+        <option value="">点货员工 Select a person</option>
+        <option value="Tang Yee Leng">Tang Yee Leng</option>
+        <option value="Teh Siew Hock">Teh Siew Hock</option>
+        <option value="Fazli">Fazli</option>
+        <option value="Dou Long">Dou Long</option>
+        <option value="Ma Xiao Xuan">Ma Xiao Xuan</option>
+        <option value="New Worker">*新员工 New Worker</option>
+      </select>
+    </div>
+    
+    
+    <button onclick="refreshApp()">刷新 Refresh</button>
+    <button onclick="submitQuantities('CR3')">保存 Submit</button>
+    <div id="loadingOverlay">
+      <div class="spinner"></div>
+    </div>
+    
+    <div id="toastNotification"></div>
+    
+    <script src="app.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/barcode-scanner-pwa/service-worker.js')
+          .then(function(registration) {
+            console.log('Service Worker registered with scope:', registration.scope);
+          })
+          .catch(function(error) {
+            console.log('Service Worker registration failed:', error);
+          });
+      }
+    </script>
+  </body>
+</html>
