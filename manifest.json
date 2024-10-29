@@ -1,19 +1,19 @@
 {
   "name": "Barcode Scanner",
-  "short_name": "CR3 Scanner",
+  "short_name": "CR3T Scanner",
   "description": "A simple PWA barcode scanner app",
-  "start_url": "/CR3-Stock-Take/index.html",
+  "start_url": "/CR3T-Stock-Take/index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
   "icons": [
     {
-      "src": "/CR3-Stock-Take/icons/CR3 icon-192x192.png",
+      "src": "/CR3T-Stock-Take/icons/CR3T icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/CR3-Stock-Take/icons/icon-512x512.png",
+      "src": "/CR3T-Stock-Take/icons/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
