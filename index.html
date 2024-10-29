@@ -155,11 +155,11 @@ button:active {
 }
 
 /* Specific Button Colors */
-button[onclick="submitQuantities('CR3')"] {
+button[onclick="submitQuantities('CR3T')"] {
     background-color: #2ecc71;
 }
 
-button[onclick="submitQuantities('CR3')"]:hover {
+button[onclick="submitQuantities('CR3T')"]:hover {
     background-color: #27ae60;
 }
 
@@ -326,7 +326,7 @@ button[onclick="refreshApp"]:hover {
     <script src="app.js"></script>
     <script>
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/barcode-scanner-pwa/service-worker.js')
+        navigator.serviceWorker.register('/CR3T-Stock-Take/service-worker.js')
           .then(function(registration) {
             console.log('Service Worker registered with scope:', registration.scope);
           })
