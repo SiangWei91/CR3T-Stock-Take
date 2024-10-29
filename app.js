@@ -259,3 +259,21 @@ document.addEventListener('visibilitychange', () => {
     checkForUpdates();
   }
 });
+
+function preventWebRefresh() {
+    let startY = 0;
+    
+    document.addEventListener('touchstart', function(e) {
+        startY = e.touches[0].pageY;
+    }, { passive: true });
+    
+    document.addEventListener('touchmove', function(e) {
+        const y = e.touches[0].pageY;
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        
+        // Only prevent default when we're at the top of the page and trying to scroll up
+        if (scrollTop === 0 && y > startY) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+}
