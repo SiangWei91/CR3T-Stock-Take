@@ -1,11 +1,11 @@
 const CACHE_NAME = 'CR3T-Stock-Take-v1';
 const urlsToCache = [
-  '/CR3T-Stock-Take/',
-  '/CR3T-Stock-Take/index.html',
-  '/CR3T-Stock-Take/app.js',
-  '/CR3T-Stock-Take/manifest.json',
-  '/CR3T-Stock-Take/icons/CR3T icon-192x192.png',
-  '/CR3T-Stock-Take/icons/icon-512x512.png'
+  '/CR3T-Stock-Take/',              // Changed case
+  '/CR3T-Stock-Take/index.html',    // Changed case
+  '/CR3T-Stock-Take/app.js',        // Changed case
+  '/CR3T-Stock-Take/manifest.json',  // Changed case
+  '/CR3T-Stock-Take/icons/CR3T icon-192x192.png',  // Changed case
+  '/CR3T-Stock-Take/icons/icon-512x512.png'        // Changed case
 ];
 
 self.addEventListener('install', function(event) {
