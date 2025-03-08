@@ -1,4 +1,4 @@
-const CACHE_NAME = 'CR3T-Stock-Take-v1';
+const CACHE_NAME = 'CR3T-Stock-Take-v1.1';
 const urlsToCache = [
   '/CR3T-Stock-Take/',
   '/CR3T-Stock-Take/index.html',
