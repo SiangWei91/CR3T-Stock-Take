@@ -279,7 +279,7 @@ button[onclick="refreshApp"]:hover {
   </head>
   <body>
         <div class="header-container">
-      <h1>CR3 Tray Stock Take</h1>
+      <h1 id="appTitle" onclick="onTitleClick()" style="cursor: pointer;" title="点击标题更新列表 Click title to update list">CR3 Tray Stock Take</h1>
       <div class="date-time-container">
         <div id="currentDate"></div>
         <div id="currentTime"></div>
@@ -305,12 +305,7 @@ button[onclick="refreshApp"]:hover {
       <label for="stockCheckBy">Stock Check By:</label>
       <select id="stockCheckBy">
         <option value="">点货员工 Select a person</option>
-        <option value="Tang Yee Leng">Tang Yee Leng</option>
-        <option value="Teh Siew Hock">Teh Siew Hock</option>
-        <option value="David">David</option>
-        <option value="Ma Xiao Xuan">Ma Xiao Xuan</option>
-        <option value="Najib">Najib</option>
-        <option value="New Worker">*新员工 New Worker</option>
+        <!-- Options populated from DB -->
       </select>
     </div>
     
@@ -322,7 +317,8 @@ button[onclick="refreshApp"]:hover {
     </div>
     
     <div id="toastNotification"></div>
-    
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="app.js"></script>
     <script>
       if ('serviceWorker' in navigator) {
